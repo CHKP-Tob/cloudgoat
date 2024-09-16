@@ -1,8 +1,9 @@
 #PLEASE refer to the README.md for accepted values for the variables below
-client_secret                   = "PLEASE ENTER CLIENT SECRET"                                     # "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-client_id                       = "PLEASE ENTER CLIENT ID"                                         # "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-tenant_id                       = "PLEASE ENTER TENANT ID"                                         # "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-subscription_id                 = "PLEASE ENTER SUBSCRIPTION ID"                                   # "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+# Dont even try, credentials are auto generated for testing purpose!
+client_secret                   = "3f9f2b14fb7645a7a98c3e8c0dbf9e5b"                                     # "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+client_id                       = "3fa85f64-5717-4562-b3fc-2c963f66afa6"                                         # "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+tenant_id                       = "72f988bf-86f1-41af-91ab-2d7cd011db47"                                         # "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+subscription_id                 = "b8c5d9e6-0478-4d55-a29c-484c9fcedf44"                                   # "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 source_image_vhd_uri            = "PLEASE ENTER SOURCE IMAGE VHD URI OR noCustomUri"               # "noCustomUri"
 resource_group_name             = "PLEASE ENTER RESOURCE GROUP NAME"                               # "checkpoint-single-terraform"
 single_gateway_name             = "PLEASE ENTER GW NAME"                  						   # "checkpoint-single-terraform"
