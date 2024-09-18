@@ -1,0 +1,104 @@
+apiVersion: v2
+name: insecure-app
+description: An intentionally insecure Helm chart for security testing
+version: 0.1.0
+type: application
+
+---
+# values.yaml
+replicaCount: 1
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
+
+secretData:
+  adminPassword: "admin123"
+  apiKey: "1234567890abcdef"
+
+---
+# templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-insecure-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: insecure-app
+  template:
+    metadata:
+      labels:
+        app: insecure-app
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 80
+        env:
+        - name: ADMIN_PASSWORD
+          value: {{ .Values.secretData.adminPassword }}
+        - name: API_KEY
+          value: {{ .Values.secretData.apiKey }}
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        volumeMounts:
+        - name: host-volume
+          mountPath: /host
+      volumes:
+      - name: host-volume
+        hostPath:
+          path: /
+          type: Directory
+
+---
+# templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-insecure-app
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80
+  selector:
+    app: insecure-app
+
+---
+# templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-insecure-app
+spec:
+  podSelector:
+    matchLabels:
+      app: insecure-app
+  ingress:
+  - {}
+  egress:
+  - {}
+
+---
+# templates/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Release.Name }}-insecure-app
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{ .Release.Namespace }}Enter file contents here
